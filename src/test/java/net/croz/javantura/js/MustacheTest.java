@@ -22,6 +22,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import sample.ui.Message;
@@ -31,6 +33,8 @@ import sample.ui.Message;
  *
  */
 public class MustacheTest {
+	public static final Logger log = LoggerFactory.getLogger(MustacheTest.class);
+	
 	private ScriptEngine engine;
 	private Object mustache; 
 	
@@ -63,11 +67,10 @@ public class MustacheTest {
 		message.setSummary("Some message");
 		message.setText("Some long text");
 		final String result = (String) ((Invocable) engine).invokeMethod(mustache, "render", template, message);
-		final ClassPathResource testOutput = new ClassPathResource("net/croz/javantura/js/mustacheOutput.html");
+		final ClassPathResource testOutput = new ClassPathResource("static/html/mustacheOutput.html");
 		final String expected = FileUtils.readFileToString(testOutput.getFile());
 		Assert.assertEquals(expected, result);
-		System.out.println(result);
-		
+		log.debug(result);
 	}
 	
 }
